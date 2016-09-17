@@ -1,0 +1,18 @@
+web:
+  image: nginx:latest
+
+  ports:
+    - "8080:80"
+
+  volumes:
+    - "./app:/app"
+    - "./config/nginx.conf:/etc/nginx/conf.d/default.conf"
+    - "./logs:/var/log/nginx"
+
+  links:
+    - php
+
+php:
+  image: php:7-fpm
+  volumes:
+    - "./app:/app"

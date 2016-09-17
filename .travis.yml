@@ -1,0 +1,22 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.4.2
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+script:
+  - ls -lah
+  - docker-compose up -d
+  - curl -v http://localhost:8080/mock200.php
+  - curl -v http://localhost:8080/mock400.php
+  - curl -v http://localhost:8080/mock404.php
+  - curl -v http://localhost:8080/mock500.php
+  - curl -v http://localhost:8080/mock503.php

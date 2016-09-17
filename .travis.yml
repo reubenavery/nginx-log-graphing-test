@@ -15,8 +15,4 @@ before_install:
 script:
   - ls -lah
   - docker-compose up -d
-  - curl -v http://localhost:8080/mock200.php
-  - curl -v http://localhost:8080/mock400.php
-  - curl -v http://localhost:8080/mock404.php
-  - curl -v http://localhost:8080/mock500.php
-  - curl -v http://localhost:8080/mock503.php
+  - ./run-tests.sh

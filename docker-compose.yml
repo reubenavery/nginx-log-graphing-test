@@ -42,6 +42,7 @@ services:
     volumes:
       - "./logstash/config:/etc/logstash/conf.d:ro,Z"
       - "./logstash/patterns:/opt/logstash/patterns:ro,Z"
+      - "./logstash/nginx_template.json:/opt/logstash/nginx_template.json"
 
     volumes_from:
       - web
@@ -57,12 +58,26 @@ services:
     restart: unless-stopped
 
     volumes:
-      #- "./kibana/config:/opt/kibana/config:ro,Z"
-      - "./kibana/config:/opt/kibana/config:Z"
+      - "./kibana/config:/opt/kibana/config:ro,Z"
 
     depends_on:
       - elasticsearch
+      - kibana_bootstrap
 
     ports:
       - "5601:5601"
 
+  kibana_bootstrap:
+    build: kibana/bootstrap/
+
+    volumes:
+      - "./kibana/kibana-bootstrap.json:/opt/kibana/kibana-bootstrap.json"
+
+    depends_on:
+      - elasticsearch
+
+  testerbot:
+    build: testerbot/
+    command: "web 80"
+    depends_on:
+      - web

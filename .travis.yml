@@ -15,5 +15,3 @@ before_install:
 script:
   - ls -lah
   - docker-compose build
-  - docker-compose up -d
-  - ./run-tests.sh
